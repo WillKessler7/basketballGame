@@ -1,16 +1,13 @@
 var score = 0;
+var canvas = document.getElementById("mainCanvas");
+var clickX = 0;
+var clickY = 0;
+var xDist = 0;
+var yDist = 0;
+var distance = 0;
+var clickStartVal = 0;
+var clickEndVal = 0;
 
-// this is not a class but to simplify the 'newGame.js' file I thought that I
-// would include this function here
-function calculateFPS() {
-    frames += 1
-    if (frames % 300 == 0) {
-        now = new Date();
-        msecs = Math.abs(now.getTime() - start.getTime());
-        console.log("seconds after start: ", msecs / 1000);
-        console.log("fps: ", (frames / msecs) * 1000);
-    }
-}
 
 
 class Oval {
@@ -20,10 +17,12 @@ class Oval {
 
     }
 
-    drawOval(context) {
-            context.beginPath();
+    drawOval() {
+            context.save();
             context.scale(2,1);
-            context.arc(this.ovalX, this.ovalY, 20, 2*Math.PI, false);
+            context.beginPath();
+            context.arc(this.ovalCenter[0], this.ovalCenter[1], 20, 2*Math.PI, false);
+            context.restore();
             context.lineWidth = 6;
             context.strokeStyle = this.ovalColor;
             context.stroke();
@@ -38,7 +37,7 @@ class Circle {
         this.radius = radius;
         this.color = "#a15c5c";
         this.velocity = [0,0];
-        this.acc = [0,-0.25];
+        this.acc = [0,0.25];
 
     }
     get x() {
@@ -67,6 +66,8 @@ class Circle {
     }
 
     bounceCheck() {
+        distance = this.calcDistance(hoop.ovalCenter[0] - 40, hoop.ovalCenter[1]);
+
         if (this.x + this.radius > canvas.width) {
             this.x = canvas.width - this.radius;
             if (this.velocity[0] > 0) {
@@ -97,6 +98,20 @@ class Circle {
             }
         }
 
+        if (distance == this.radius) {
+            this.velocity *= -.75;
+            this.acc *= -.5;
+        }
+
+    }
+
+    calcDistance(x,y) {
+        xDist = x - this.x;
+        yDist = y - this.y;
+        distance = Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
+        console.log(distance);
+        return distance;
+
     }
 
 
@@ -110,25 +125,42 @@ class Circle {
             }
     }
 
-    drawCircle(context) {
+    drawCircle() {
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
         context.fillStyle = this.color;
         context.fill();
-        context.stroke();
     }
 
 }
 
 function defContext() {
-    // console.log("Window is %d by %d" % (windowWidth, windowHeight));
 
-    canvas = document.getElementById("mainCanvas");
-
-    canvas.width = window.innerWidth - 32;
+    canvas.width = window.innerWidth - 18;
     canvas.height = window.innerHeight - 18;
     canvas.style.border = "1px solid black";
 
     context = canvas.getContext("2d");
     return context;
+}
+
+function myKeyDown(event) {
+
+    console.log(event);
+    clickX = MouseEvent.clientX;
+    clickY = MouseEvent.clientY;
+    distance = basketball.calcDistance(clickX, clickY);
+    if (distance <= this.radius) {
+        return true;
+    }
+
+    else {
+        return false;
+    }
+
+
+}
+
+function processClick() {
+    msecs = abs(now.getTime() - start.getTime());
 }

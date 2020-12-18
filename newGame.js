@@ -1,42 +1,27 @@
-/*
-
-function myKeyDown(event) {
-    keyCode = event.which;
-    keyStr = event.key;
-    console.log(event);
-    console.log(keyCode);
-    console.log(keyStr);
-
-    if ((keyStr == 'w') || (keyStr == 'W')) {
-        circleVel[1] += 1;
-    }
-
-    if ((keyStr == 'a') || (keyStr == 'A')) {
-        circleVel[0] -= 1;
-    }
-
-    if ((keyStr == 'd') || (keyStr == 'D')) {
-        circleVel[0] += 1;
-    }
-
-    if ((keyStr == 's') || (keyStr == 'S')) {
-        circleVel[1] -=1;
-    }
-}
-*/
+// fix oval not appearing issue, be able to click multiple times, and click and hold, then create an algorithm to calculate
+// how far the ball should be thrown and then make comments
 
 function drawAll() {
     context.clearRect(0,0, canvas.width, canvas.height);
-    // if (basketball.x == 200 && basketball.y == 200) {
+    if (basketball.x == 200 && basketball.y == 200) {
+        document.removeEventListener("click", myKeyDown);
         //welcomeMessage = alert("Welcome to my basketball game. Click and drag the ball to shoot\
-// it and try to get it in the hoop. Try to score as many baskets as you can in 30 seconds.");
-//    }
-    basketball.drawCircle(context);
-    hoop.drawOval(context);
+    //it and try to get it in the hoop. Try to score as many baskets as you can in 30 seconds.");
+
+
+    }
+
+    else {
+        click = document.addEventListener("click", myKeyDown);
+    }
+
+    basketball.drawCircle();
     basketball.applyGravity();
     basketball.bounceCheck();
     basketball.scoreCheck();
+    hoop.drawOval();
     window.requestAnimationFrame(drawAll);
+
 
 
 }
@@ -44,9 +29,6 @@ function drawAll() {
 
 context = defContext();
 basketball = new Circle(200, 200, 50);
-hoop = new Oval(canvas.width*.95, canvas.height*.8);
-
-
-// document.addEventListener("keyDown", myKeyDown);
+hoop = new Oval(canvas.width * .85, canvas.height * .1);
 
 window.requestAnimationFrame(drawAll);
