@@ -49,7 +49,7 @@ context = defContext();
 basketball = new Circle(200, 200, 50);
 
 // createst the hoop object
-hoop = new Oval(canvas.width * .85, canvas.height * .2);
+hoop = new Oval(canvas.width * .4715, canvas.height * .2);
 
 // listens for the mouse click and calls a function if it does
 click = document.addEventListener("mousedown", myKeyDown);

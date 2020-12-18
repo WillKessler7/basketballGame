@@ -23,7 +23,7 @@ class Oval {
             context.save();
             context.scale(2,1);
             context.beginPath();
-            context.arc(this.ovalCenter[0], this.ovalCenter[1], 20, 0, 2*Math.PI);
+            context.arc(this.ovalCenter[0], this.ovalCenter[1], 40, 0, 2*Math.PI);
             context.lineWidth = 6;
             context.strokeStyle = this.ovalColor;
             context.stroke();
@@ -67,7 +67,7 @@ class Circle {
     }
 
     bounceCheck() {
-        distance = this.calcDistance(hoop.ovalCenter[0] - 40, hoop.ovalCenter[1]);
+        distance = this.calcDistance(hoop.ovalCenter[0] - 20, hoop.ovalCenter[1]);
 
         if (this.x + this.radius > canvas.width) {
             this.x = canvas.width - this.radius;
@@ -150,17 +150,8 @@ function myKeyDown(event) {
     clickY = event.clientY;
     distance = basketball.calcDistance(clickX, clickY);
 
-    if (event == "mousedown") {
-        if (distance >= this.radius) {
-            processClick(clickX, clickY);
-        }
-
-        else {
-            return false;
-        }
-    }
-
-    else {
+    if (distance <= basketball.radius) {
+        console.log(distance, clickX, clickY, basketball.x, basketball.y);
         processClick(clickX, clickY);
     }
 
@@ -183,25 +174,31 @@ function processRelease(event) {
     x = event.clientX;
     y = event.clientY;
 
-    // documents where click ended to calculate how far ball will be thrown
-    clickEndVal = [x, y];
-
-
-    xDist = Math.abs(clickStartVal[0] - clickEndVal[0]);
-    yDist = Math.abs(clickStartVal[1] - clickEndVal[1]);
+    xDist = x - basketball.x;
+    yDist = y - basketball.y;
 
     distance = basketball.calcDistance(xDist, yDist);
 
-    now = new Date();
+    if (distance <= basketball.radius) {
 
-    msecs = Math.abs(now.getTime() - start.getTime());
+        // documents where click ended to calculate how far ball will be thrown
+        clickEndVal = [x, y];
 
-    // write out formula for applying velocity after the release
 
-    basketball.velocity[0] = (distance / msecs) * 10000;
-    basketball.velocity[1] = (distance / msecs) * 10000;
+        xDist = clickStartVal[0] - clickEndVal[0];
+        yDist = clickStartVal[1] - clickEndVal[1];
 
-    return true;
+        distance = basketball.calcDistance(xDist, yDist);
+
+        now = new Date();
+
+        msecs = Math.abs(now.getTime() - start.getTime());
+
+        // write out formula for applying velocity after the release
+
+        basketball.velocity[0] = (distance / msecs);
+        basketball.velocity[1] = (distance / msecs);
+    }
 
 
 }
