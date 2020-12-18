@@ -5,8 +5,10 @@ var clickY = 0;
 var xDist = 0;
 var yDist = 0;
 var distance = 0;
-var clickStartVal = 0;
-var clickEndVal = 0;
+var clickStartVal = [0, 0];
+var clickEndVal = [0, 0];
+var start = new Date();
+var now = new Date();
 
 
 
@@ -21,12 +23,11 @@ class Oval {
             context.save();
             context.scale(2,1);
             context.beginPath();
-            context.arc(this.ovalCenter[0], this.ovalCenter[1], 20, 2*Math.PI, false);
-            context.restore();
+            context.arc(this.ovalCenter[0], this.ovalCenter[1], 20, 0, 2*Math.PI);
             context.lineWidth = 6;
             context.strokeStyle = this.ovalColor;
             context.stroke();
-
+            context.restore();
     }
 }
 
@@ -109,7 +110,6 @@ class Circle {
         xDist = x - this.x;
         yDist = y - this.y;
         distance = Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
-        console.log(distance);
         return distance;
 
     }
@@ -146,21 +146,62 @@ function defContext() {
 
 function myKeyDown(event) {
 
-    console.log(event);
-    clickX = MouseEvent.clientX;
-    clickY = MouseEvent.clientY;
+    clickX = event.clientX;
+    clickY = event.clientY;
     distance = basketball.calcDistance(clickX, clickY);
-    if (distance <= this.radius) {
-        return true;
+
+    if (event == "mousedown") {
+        if (distance >= this.radius) {
+            processClick(clickX, clickY);
+        }
+
+        else {
+            return false;
+        }
     }
 
     else {
-        return false;
+        processClick(clickX, clickY);
     }
-
 
 }
 
-function processClick() {
-    msecs = abs(now.getTime() - start.getTime());
+function processClick(x, y) {
+    // documents where click began to calculate how far ball will be thrown
+    clickStartVal = [x, y];
+
+    // adjusts the x and y coordinates as ball is dragged
+    basketball.x = x;
+    basketball.y = y;
+
+    // documents how long it has been since click started for
+    start = new Date();
+}
+
+function processRelease(event) {
+
+    x = event.clientX;
+    y = event.clientY;
+
+    // documents where click ended to calculate how far ball will be thrown
+    clickEndVal = [x, y];
+
+
+    xDist = Math.abs(clickStartVal[0] - clickEndVal[0]);
+    yDist = Math.abs(clickStartVal[1] - clickEndVal[1]);
+
+    distance = basketball.calcDistance(xDist, yDist);
+
+    now = new Date();
+
+    msecs = Math.abs(now.getTime() - start.getTime());
+
+    // write out formula for applying velocity after the release
+
+    basketball.velocity[0] = (distance / msecs) * 10000;
+    basketball.velocity[1] = (distance / msecs) * 10000;
+
+    return true;
+
+
 }
