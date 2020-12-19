@@ -1,6 +1,3 @@
-// fix oval not appearing issue, be able to click multiple times, and click and hold, then create an algorithm to calculate
-// how far the ball should be thrown and then make comments
-
 function drawAll() {
 /*
     Purpose: This is the function that acts as a 'main' of sorts. It is the primary
@@ -16,7 +13,8 @@ function drawAll() {
     if (basketball.x == 200 && basketball.y == 200) {
         // write the welcome message
         //welcomeMessage = alert("Welcome to my basketball game. Click and drag the ball to shoot\
-    //it and try to get it in the hoop. Try to score as many baskets as you can in 30 seconds.");
+    //it and try to get it in the hoop. I would reccomend you use a mouse if you have one\
+//Also if you click the spacebar, it will stop the ball from bouncing around.");
 
     }
 
@@ -46,16 +44,18 @@ function drawAll() {
 context = defContext();
 
 // creates the basketball object
-basketball = new Circle(200, 200, 50);
+basketball = new Circle(200, 500, 50);
 
 // createst the hoop object
-hoop = new Oval(canvas.width * .4715, canvas.height * .2);
+hoop = new Oval(canvas.width * .4715, canvas.height * .3);
 
 // listens for the mouse click and calls a function if it does
 click = document.addEventListener("mousedown", myKeyDown);
 
 // listens for mouse release and calls a function to respond to that
 release = document.addEventListener("mouseup", processRelease);
+
+space = document.addEventListener("keydown", spacebarCheck);
 
 // requests another frame to be animated
 window.requestAnimationFrame(drawAll);
