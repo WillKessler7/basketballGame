@@ -199,21 +199,24 @@ class Circle {
 
     }
 
-
+    /* commented this out because of lack of response from if statements
     scoreCheck() {
+    */
         /*
         Purpose: checks to see if the user scored by putting ball through the basket
         Parameters: None
         Returns: None
         */
+    /*
 
+        // defines left and right oval points + 40 to adjust for the way the canvas was set up
+        leftOvalX = (hoop.ovalCenter[0] * 2) - 80 + 40;
+        rightOvalX = (hoop.ovalCenter[0] * 2) + 40;
 
-        leftOvalX = (hoop.ovalCenter[0] * 2) - 80 + 86;
-        rightOvalX = (hoop.ovalCenter[0] * 2) + 86;
-
-
+        // if ball is within the radius on both sides of oval,
         if ((this.x - leftOvalX) < 41 && (rightOvalX - this.x) < 41) {
-            if (Math.abs(this.y - hoop.ovalCenter[1]) < 3) {
+            // if the ball is on the y coord of the oval,
+            if (Math.abs(this.y - hoop.ovalCenter[1]) < 1) {
 
                 // accumlates the score
                 score += 1;
@@ -231,6 +234,7 @@ class Circle {
             }
         }
     }
+    */
 
     drawCircle() {
         /*

@@ -10,12 +10,11 @@ function drawAll() {
     context.clearRect(0,0, canvas.width, canvas.height);
 
     // if the basketball is in it's original place,
-    if (basketball.x == 200 && basketball.y == 200) {
-        // write the welcome message
-        //welcomeMessage = alert("Welcome to my basketball game. Click and drag the ball to shoot\
-    //it and try to get it in the hoop. I would reccomend you use a mouse if you have one\
-//Also if you click the spacebar, it will stop the ball from bouncing around.");
-
+    if (basketball.x == 200 && basketball.y == 500) {
+        // writes the welcome message
+        welcomeMessage = alert("Welcome to my basketball game. Click and drag the ball to shoot\
+ it and try to get it in the hoop. I would reccomend you use a mouse if you have one.\
+ Also if you click the spacebar, it will stop the ball from bouncing around.");
     }
 
     // draws the basketball
@@ -28,7 +27,7 @@ function drawAll() {
     basketball.bounceCheck();
 
     // checks if the user made a basket
-    basketball.scoreCheck();
+    // basketball.scoreCheck();
 
     // draws the hoop
     hoop.drawOval();
